@@ -15,20 +15,20 @@
 
 makeCacheMatrix <- function(x = matrix()) 
 {
-        m <- NULL
+        m <- NULL                                    ## Intialize a vriable for the matrix's inverse
         
-        set <- function(y) {
+        set <- function(y) {                         ## function that sets the matrix and its intilaization of it if it changed
                 x <<- y
                 m <<- NULL
         }
         
-        get <- function() x
+        get <- function() x                          ## Function returns the matrix that is being applied on
         
-        setsolve <- function(solve) m <<- solve
+        setsolve <- function(solve) m <<- solve      ## Function sets the inverse of the matrix
         
-        getsolve <- function() m
+        getsolve <- function()                       ## Function returns the inverse of the matrix
         
-        list(set = set, get = get,
+        list(set = set, get = get,                   ## Adding the result to a list to search in if there is multiple results
              setsolve = setsolve,
              getsolve = getsolve)
 }
@@ -40,17 +40,17 @@ makeCacheMatrix <- function(x = matrix())
 
 cacheSolve <- function(x, ...) 
 {
-        m <- x$getsolve()
+        m <- x$getsolve()                      ## Get the inverse of the matrix from makeCacheMatrix function
         
-        if(!is.null(m)) 
+        if(!is.null(m))                        ## Check if the matrix has been computed before
         {
-                message("getting cached data")
+                message("getting cached data") ## If yes the computed result in the cache is returned
                 return(m)
         }
         
-        data <- x$get()
-        m <- solve(data, ...)
-        x$setsolve(m)
+        data <- x$get()                        ## If not the matrix is returned from makeCacheMatrix
+        m <- solve(data, ...)                  ## inverse the matrix
+        x$setsolve(m)                          ## set the inversed matrix to the special matrix object
         
-        m
+        m                                      ## Then return the result which is the inverse of the matrix
 }
